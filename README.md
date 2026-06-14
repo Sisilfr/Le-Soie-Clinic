@@ -137,7 +137,7 @@ le-soie/
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/Sisilfr/Le-Soie.git
+git clone [https://github.com/Sisilfr/Le-Soie.git](https://github.com/Sisilfr/Le-Soie-Clinic.git)
 cd le-soie
 
 # 2. Install dependencies
