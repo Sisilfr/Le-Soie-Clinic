@@ -19,7 +19,7 @@
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?style=for-the-badge&logo=dart&logoColor=white)
-![Status](https://img.shields.io/badge/Status-In%20Development-B89B6A?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Completed-success?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web-4A6B5A?style=for-the-badge)
 
 </div>
@@ -28,9 +28,17 @@
 
 ## ✨ Tentang Le Soie
 
-**Le Soie** adalah aplikasi kecantikan & klinik perawatan kulit yang hadir untuk menemani perjalanan perawatan kulitmu sehari-hari. Dirancang dengan estetika yang elegan dan pengalaman pengguna yang intuitif, Le Soie membantu kamu membangun rutinitas perawatan kulit yang konsisten dan personal.
+**Le Soie** adalah aplikasi kecantikan & klinik perawatan kulit yang dirancang untuk menemani perjalanan perawatan kulitmu sehari-hari. Aplikasi ini dibangun untuk UAS Mobile Computing dengan fokus pada arsitektur bersih (MVC ringan), manajemen state (Provider), integrasi API eksternal (DummyJSON), penyimpanan lokal (SharedPreferences), dan fitur perangkat keras mobile (Local Notification).
 
 > *"Kulit sehat bukan tentang kesempurnaan, tapi tentang konsistensi."*
+
+---
+
+## 🎨 Link Desain Figma
+
+> [!IMPORTANT]
+> Desain UI/UX Le Soie Clinic dapat diakses pada tautan berikut (Pastikan link di-set ke "Anyone with the link can view"):
+> 🔗 **[Link Desain Figma Le Soie](https://www.figma.com/design/A2wpRFrpgfeotgcHZy7RQU/Le-Sole?node-id=2-7&t=k2klQkE6IywkM3Cf-1)**
 
 ---
 
@@ -41,153 +49,142 @@
 | 🏠 Beranda | 🔐 Login |
 |:---:|:---:|
 | <img src="docs/screenshots/screen_home.png" width="200"/> | <img src="docs/screenshots/screen_login.png" width="200"/> |
-| Hero section dengan foto & tombol CTA | Background foto + form login elegan |
+| Hero section dengan foto & tombol CTA | Form login elegan terhubung SharedPreferences |
 
 | 📝 Register | 📓 Jurnal Rutinitas |
 |:---:|:---:|
-| <img src="docs/screenshots/screen_register.png" width="200"/> | <img src="docs/screenshots/screen_jurnal.png" width="200"/> |
-| Form registrasi dengan benefit eksklusif | Checklist AM/PM + form tambah rutinitas |
+| <img src="docs/screenshots/screen_register.png" width="200"/> | <img src="docs/screenshots/screen_jurnal_reminder.jpeg" width="200"/> |
+| Form registrasi dengan benefit eksklusif | Jurnal Rutinitas — Checklist AM/PM, pengingat, dan progress harian |
+
+| 🛍️ Belanja Skincare | ⏰ Set Jam Pengingat |
+|:---:|:---:|
+| <img src="docs/screenshots/screen_belanja.png" width="200"/> | <img src="docs/screenshots/screen_jurnal_reminder.jpeg" width="200"/> |
+| Grid produk dari DummyJSON API | Time Picker kustom untuk pengingat manual |
+
+| 📚 Artikel Skincare | 🔔 Notifikasi Pengingat |
+|:---:|:---:|
+| <img src="docs/screenshots/screen_jurnal_artikel.jpeg" width="200"/> | <img src="docs/screenshots/screen_notifikasi.jpeg" width="200"/> |
+| Artikel Skincare — Tab kedua di halaman Jurnal, filter kategori (Kandungan Skincare, Kesehatan Kulit) | Notifikasi Reminder PM — Muncul di status bar HP sesuai jadwal terjadwal |
 
 </div>
 
 ---
 
-## 🚀 Fitur Utama
+## 🚀 Fitur Utama & UAS Rubrik
 
-### ✅ Sudah Tersedia
-| Fitur | Deskripsi |
-|---|---|
-| 🔐 **Authentication** | Halaman login & registrasi dengan Google & Apple sign-in |
-| 🏠 **Home Screen** | Hero banner, highlights ingredient, & informasi klinik |
-| 📓 **Jurnal Rutinitas** | Pelacak rutinitas harian AM/PM dengan progress bar & checklist interaktif |
-| ➕ **Tambah Rutinitas** | Tambah langkah perawatan baru secara inline tanpa pindah halaman |
-| 🧭 **Navigasi 5 Tab** | Beranda · Belanja · AI · Konsultasi · Jurnal |
+Aplikasi **Le Soie** telah ditingkatkan dengan fitur-fitur wajib berikut untuk Rubrik Penilaian UAS:
 
-### 🔜 Segera Hadir
-| Fitur | Deskripsi |
-|---|---|
-| 🛍️ **Belanja** | Katalog produk Le Soie dengan sistem keranjang |
-| 🤖 **AI Beauty Suite** | Analisis warna & kondisi kulit berbasis AI |
-| 📅 **Konsultasi** | Jadwalkan konsultasi langsung dengan ahli kulit |
+1. **State Management (Provider)**
+   - Menggunakan package `provider` untuk memisahkan logic UI dengan bisnis.
+   - Terdiri dari 4 provider utama: `AuthProvider`, `RoutineProvider`, `ProductProvider`, dan `NotificationProvider`.
+2. **API Integration (DummyJSON)**
+   - Halaman **Belanja** mengambil data secara realtime dari API `https://dummyjson.com/products/category/skincare`.
+   - Menampilkan daftar produk (thumbnail, kategori, nama, harga USD, rating) dengan grid view yang responsif, dilengkapi loading indicator, pesan error, serta tombol **Coba Lagi**.
+   - Dilengkapi popup detail produk (Bottom Sheet) premium untuk checkout / pembelian produk.
+3. **Local Storage (SharedPreferences)**
+   - Menyimpan status login pengguna (`isLoggedIn`).
+   - Fitur **Auto-Login** mendeteksi status login saat aplikasi dimulai via `SplashScreen` dan mengarahkan pengguna secara otomatis ke halaman utama jika status login bernilai `true`.
+   - Mengintegrasikan fungsi **Logout** di halaman Beranda (mengklik ikon Profil akan memunculkan dialog konfirmasi keluar dan menghapus status login).
+4. **Mobile Feature (Local Notification)**
+   - Menggunakan package `flutter_local_notifications` dan `timezone`.
+   - Pengingat rutinitas harian untuk pagi (**AM**) dan malam (**PM**).
+   - **Kustomisasi Waktu Manual**: Pengguna dapat mengaktifkan/menonaktifkan pengingat menggunakan Switch dan menyesuaikan jam pengingat harian secara manual melalui Time Picker yang elegan. Preferensi status dan waktu pengingat ini disimpan di penyimpanan lokal agar tetap persisten setelah aplikasi ditutup.
+5. **Artikel Skincare (Konten Edukasi)**
+    - Terintegrasi di dalam halaman **Jurnal** menggunakan TabBar yang elegan (Tab 1: Jurnal Rutinitas, Tab 2: Artikel Skincare).
+    - Memuat daftar artikel edukasi kesehatan kulit, kandungan skincare, dan kebiasaan sehat.
+    - Data disimulasikan secara asinkron (`Future.delayed`) untuk merefleksikan pemanggilan API riil.
+    - Dilengkapi filter kategori yang interaktif (Semua, Kandungan Skincare, Kesehatan Kulit, Kebiasaan Sehat) serta tampilan detail artikel yang responsif menggunakan Modal Bottom Sheet.
 
 ---
 
-## 🗂️ Struktur Proyek
+## 🗂️ Arsitektur Aplikasi (MVC Ringan)
+
+Struktur folder proyek diorganisasi dengan pola arsitektur **MVC Ringan** untuk pemisahan tugas yang jelas:
 
 ```
-le-soie/
-├── lib/
-│   ├── main.dart                    # Entry point aplikasi
-│   ├── core/
-│   │   └── theme/
-│   │       ├── app_colors.dart      # Palet warna (hijau sage, krem, gold)
-│   │       └── app_theme.dart       # Konfigurasi tema global
-│   ├── screens/
-│   │   ├── login_screen.dart        # Halaman login
-│   │   ├── register_screen.dart     # Halaman registrasi
-│   │   ├── main_screen.dart         # Shell navigasi utama (IndexedStack)
-│   │   ├── home_screen.dart         # Halaman beranda
-│   │   └── jurnal_screen.dart       # Halaman jurnal rutinitas
-│   └── widgets/
-│       ├── custom_button.dart       # Komponen tombol reusable
-│       └── custom_text_field.dart   # Komponen input reusable
-├── assets/
-│   ├── images/                      # Gambar hero & background
-│   │   ├── Home.png
-│   │   ├── Login.png
-│   │   ├── Register.png
-│   │   └── ...
-│   └── icons/                       # Icon SVG
-│       └── gg_google.svg
-└── pubspec.yaml
+lib/
+├── main.dart                    # Entry point aplikasi & MultiProvider setup
+├── core/
+│   └── theme/
+│       ├── app_colors.dart      # Palet warna (hijau sage, krem, gold)
+│       └── app_theme.dart       # Konfigurasi tema global
+├── models/
+│   ├── routine_item.dart        # Model data rutinitas
+│   ├── product.dart             # Model data produk dari DummyJSON API
+│   └── article.dart             # Model data artikel skincare
+├── services/
+│   ├── auth_storage_service.dart # Layanan SharedPreferences status login
+│   ├── product_api_service.dart  # Layanan HTTP fetch data DummyJSON
+│   ├── notification_service.dart # Layanan inisialisasi & penjadwalan notifikasi local
+│   └── article_service.dart     # Layanan penyuplai data artikel skincare dummy
+├── providers/
+│   ├── auth_provider.dart        # State login/logout & auto-login check
+│   ├── routine_provider.dart     # State manajemen daftar rutinitas AM/PM
+│   ├── product_provider.dart     # State produk skincare, loading, & error handling
+│   ├── notification_provider.dart # State status pengingat & kustomisasi jam manual
+│   └── article_provider.dart     # State manajemen artikel, loading & error
+├── screens/
+│   ├── login_screen.dart        # Layanan login terhubung AuthProvider
+│   ├── register_screen.dart     # Halaman pendaftaran akun
+│   ├── main_screen.dart         # Penampung navigasi 5 tab utama
+│   ├── home_screen.dart         # Halaman beranda terintegrasi tombol logout
+│   ├── belanja_screen.dart      # Halaman katalog produk realtime
+│   └── jurnal_screen.dart       # Halaman jurnal rutinitas & kustomisasi alarm
+└── widgets/
+    ├── custom_button.dart       # Komponen tombol reusable
+    ├── custom_text_field.dart   # Komponen input text reusable
+    └── product_card.dart        # Komponen kartu produk premium
 ```
 
 ---
 
-## 🎨 Design System
-
-### Palet Warna
-| Token | Warna | Hex | Penggunaan |
-|---|:---:|---|---|
-| `primaryGreen` | 🟢 | `#2D4A3E` | CTA, icon aktif, aksen |
-| `primaryGreenLight` | 🟩 | `#4A6B5A` | Gradient, hover |
-| `accentGold` | 🟡 | `#B89B6A` | Label premium, divider |
-| `background` | ⬜ | `#FAF8F5` | Background utama |
-| `backgroundDarker` | 🟫 | `#F0E8DC` | Kartu, section |
-| `textDark` | ⬛ | `#2A2A1E` | Teks utama |
-| `textGray` | 🔘 | `#9A9A8A` | Teks sekunder |
-
-### Tipografi
-| Peran | Font | Gaya |
-|---|---|---|
-| Display / Logo | **Playfair Display** | Italic, elegant |
-| Heading | **Cormorant Garamond** | Serif, premium |
-| Body / UI | **Inter** | Sans-serif, clean |
-
----
-
-## ⚙️ Cara Menjalankan
+## ⚙️ Cara Menjalankan Aplikasi
 
 ### Prasyarat
 - Flutter SDK `^3.x`
 - Dart SDK `^3.12.0`
-- Chrome (untuk Flutter Web)
 
-### Langkah Instalasi
+### Langkah Instalasi & Run
 
 ```bash
-# 1. Clone repository
-git clone [https://github.com/Sisilfr/Le-Soie.git](https://github.com/Sisilfr/Le-Soie-Clinic.git)
-cd le-soie
+# 1. Masuk ke direktori project
+cd le-soie-main
 
-# 2. Install dependencies
+# 2. Install dependensi
 flutter pub get
 
-# 3. Jalankan di browser (web)
-flutter run -d chrome
-
-# 4. Atau jalankan di emulator Android/iOS
+# 3. Jalankan di emulator / device fisik
 flutter run
 ```
 
 ### Build Production
 
 ```bash
-# Build APK
+# Build APK Release
 flutter build apk --release
-
-# Build iOS
-flutter build ios --release
-
-# Build Web
-flutter build web --release
 ```
 
 ---
 
-## 📦 Dependencies
+## 📦 Dependensi Utama
 
 | Package | Versi | Kegunaan |
 |---|---|---|
-| `google_fonts` | `^8.1.0` | Tipografi premium (Playfair, Inter, Cormorant) |
-| `flutter_svg` | `^2.0.10+1` | Render icon SVG (Google, dll) |
-| `cupertino_icons` | `^1.0.8` | Icon set iOS style |
+| `provider` | `^6.1.2` | Manajemen state terpusat (ChangeNotifier) |
+| `http` | `^1.2.2` | Komunikasi HTTP dengan API DummyJSON |
+| `shared_preferences` | `^2.3.2` | Penyimpanan lokal status login & preferensi alarm |
+| `flutter_local_notifications` | `^18.0.1` | Penjadwalan alarm pengingat mobile lokal |
+| `timezone` | `^0.9.4` | Inisialisasi zona waktu untuk notifikasi terjadwal |
+| `flutter_timezone` | `^5.1.0` | Membaca nama zona waktu asli dari perangkat (e.g. Asia/Jakarta) |
+| `google_fonts` | `^8.1.0` | Tipografi premium (Playfair Display, Inter) |
+| `flutter_svg` | `^2.0.10+1` | Render icon vektor (Google SVG) |
 
 ---
 
-## 🤝 Kontribusi
-
-1. Fork repository ini
-2. Buat branch fitur baru: `git checkout -b feature/nama-fitur`
-3. Commit perubahan: `git commit -m 'feat: tambah fitur X'`
-4. Push ke branch: `git push origin feature/nama-fitur`
-5. Buat Pull Request
-
----
-
-## 📄 Lisensi
-
-Proyek ini bersifat privat dan dikembangkan untuk keperluan **Le Soie Beauty Care & Clinic**.
+## 📄 Catatan Penilaian Dosen / Penguji
+- **Sumber Data API**: Produk diimpor dari endpoint `https://dummyjson.com/products/category/skincare` (kategori kosmetik/skincare).
+- **Format Mata Uang**: Menggunakan format **USD ($)** sesuai dengan data asli dari DummyJSON.
+- **Konfigurasi Notifikasi Android**: Permissions `POST_NOTIFICATIONS` dan `SCHEDULE_EXACT_ALARM` telah ditambahkan di file `AndroidManifest.xml` bersama dengan meta-data default icon.
 
 ---
 
@@ -195,21 +192,12 @@ Proyek ini bersifat privat dan dikembangkan untuk keperluan **Le Soie Beauty Car
 
 <div align="center">
 
-<br/>
-
-| | |
-|:---:|:---|
-| 👤 | **Suci Fransisca Sisilia** |
-| 🎓 | Data Science |
-| 🔗 | [github.com/Sisilfr](https://github.com/Sisilfr) |
+| 👤 **Suci Fransisca Sisilia** |
+|:---|
+| 🎓 Program Studi: Data Science |
+| 🔗 GitHub: [github.com/Sisilfr](https://github.com/Sisilfr) |
 
 <br/>
-
-</div>
-
----
-
-<div align="center">
 
 Made with ❤️ & Flutter
 
