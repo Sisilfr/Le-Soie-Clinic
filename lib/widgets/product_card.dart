@@ -42,19 +42,33 @@ class ProductCard extends StatelessWidget {
                     child: Container(
                       color: AppColors.backgroundLight,
                       width: double.infinity,
-                      child: Image.network(
-                        product.thumbnail,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Center(
-                            child: Icon(
-                              Icons.broken_image_outlined,
-                              color: AppColors.textGray,
-                              size: 32,
+                      child: product.thumbnail.startsWith('assets/')
+                          ? Image.asset(
+                              product.thumbnail,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(
+                                  child: Icon(
+                                    Icons.broken_image_outlined,
+                                    color: AppColors.textGray,
+                                    size: 32,
+                                  ),
+                                );
+                              },
+                            )
+                          : Image.network(
+                              product.thumbnail,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(
+                                  child: Icon(
+                                    Icons.broken_image_outlined,
+                                    color: AppColors.textGray,
+                                    size: 32,
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
                     ),
                   ),
                 ),

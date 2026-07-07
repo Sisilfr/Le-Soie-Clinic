@@ -37,7 +37,7 @@ class ArticleService {
         category: 'Kesehatan Kulit',
         summary: 'Alasan mengapa tabir surya adalah produk anti-aging paling krusial dalam rutinitas Anda.',
         content: 'Menggunakan pelembap dan serum terbaik akan sia-sia jika Anda melupakan tabir surya (sunscreen). Sinar ultraviolet (UV) dari matahari dapat menembus awan dan kaca jendela, merusak kolagen dan elastin kulit yang menyebabkan penuaan dini (photoaging), hiperpigmentasi, dan merusak pertahanan skin barrier.\n\nUntuk perlindungan harian, gunakan sunscreen dengan spektrum luas minimal SPF 30 dan PA+++. Aplikasikan sebanyak dua ruas jari di pagi hari, dan lakukan re-apply setiap 2-3 jam terutama jika Anda beraktivitas di luar ruangan.',
-        imageUrl: 'assets/images/hero_skincare.png',
+        imageUrl: 'assets/images/Image (Face scan).png',
       ),
       Article(
         id: 5,
@@ -69,7 +69,7 @@ class ArticleService {
         category: 'Kebiasaan Sehat',
         summary: 'Hubungan asupan cairan harian dengan kekenyalan dan elastisitas kulit wajah.',
         content: 'Skincare topikal hanya bekerja pada lapisan luar kulit. Untuk mendapatkan kulit yang kenyal dan sehat dari dalam, tubuh memerlukan hidrasi yang cukup. Minum air putih minimal 2 liter per hari membantu membuang racun (detoksifikasi) dari dalam tubuh, melancarkan sirkulasi nutrisi ke sel-sel kulit, dan mempertahankan elastisitas jaringan kulit.\n\nJika tubuh dehidrasi, kulit akan tampak lebih layu, garis halus lebih terlihat, dan produksi minyak alami wajah bisa meningkat secara drastis sebagai reaksi pertahanan kulit.',
-        imageUrl: 'assets/images/hero_skincare.png',
+        imageUrl: 'assets/images/Image (Face scan).png',
       ),
     ];
   }

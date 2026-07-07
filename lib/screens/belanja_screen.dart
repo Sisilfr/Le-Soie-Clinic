@@ -212,10 +212,21 @@ class _BelanjaScreenState extends State<BelanjaScreen> {
                     child: SizedBox(
                       width: 100,
                       height: 100,
-                      child: Image.network(
-                        product.thumbnail,
-                        fit: BoxFit.cover,
-                      ),
+                      child: product.thumbnail.startsWith('assets/')
+                          ? Image.asset(
+                              product.thumbnail,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(child: Icon(Icons.broken_image_outlined));
+                              },
+                            )
+                          : Image.network(
+                              product.thumbnail,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(child: Icon(Icons.broken_image_outlined));
+                              },
+                            ),
                     ),
                   ),
                   const SizedBox(width: 16),
