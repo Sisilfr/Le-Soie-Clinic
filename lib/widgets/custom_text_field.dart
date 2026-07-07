@@ -5,12 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final bool isPassword;
+  final TextEditingController? controller;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.hintText,
     this.isPassword = false,
-  }) : super(key: key);
+    this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class CustomTextField extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE8E8E8)),
       ),
       child: TextField(
+        controller: controller,
         obscureText: isPassword,
         style: GoogleFonts.inter(fontSize: 14, color: AppColors.textDark),
         decoration: InputDecoration(

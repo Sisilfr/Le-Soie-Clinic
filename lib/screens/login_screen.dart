@@ -1,11 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import '../core/theme/app_colors.dart';
+import '../providers/auth_provider.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLocalLoading = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleLogin() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email dan password tidak boleh kosong'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLocalLoading = true;
+    });
+
+    try {
+      await context.read<AuthProvider>().login(email, password);
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/main');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.toString().replaceAll('Exception: ', '')),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLocalLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      Colors.white.withOpacity(0.2),
+                      Colors.white.withAlpha(50),
                       Colors.white,
                     ],
                   ),
@@ -50,7 +109,7 @@ class LoginScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withAlpha(12),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                     ),
@@ -92,18 +151,29 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 32),
                     
                     // Form Inputs
-                    const CustomTextField(hintText: 'Email'),
+                    CustomTextField(
+                      hintText: 'Email',
+                      controller: _emailController,
+                    ),
                     const SizedBox(height: 16),
-                    const CustomTextField(hintText: 'Password', isPassword: true),
+                    CustomTextField(
+                      hintText: 'Password',
+                      isPassword: true,
+                      controller: _passwordController,
+                    ),
                     const SizedBox(height: 24),
                     
                     // Login Button
-                    CustomButton(
-                      text: 'Login',
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/main');
-                      },
-                    ),
+                    _isLocalLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryGreen,
+                            ),
+                          )
+                        : CustomButton(
+                            text: 'Login',
+                            onPressed: _handleLogin,
+                          ),
                     const SizedBox(height: 24),
                     
                     // Divider

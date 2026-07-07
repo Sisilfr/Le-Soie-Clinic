@@ -3,9 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../core/theme/app_colors.dart';
 import 'home_screen.dart';
 import 'jurnal_screen.dart';
+import 'belanja_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -17,8 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> _buildPages() {
     return [
       const HomeScreen(),
-      // Belanja placeholder
-      _buildPlaceholder('Belanja', Icons.shopping_bag_outlined),
+      const BelanjaScreen(),
       // AI placeholder
       _buildPlaceholder('AI', Icons.auto_awesome_outlined),
       // Konsultasi placeholder
@@ -81,7 +81,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, -4),
           ),

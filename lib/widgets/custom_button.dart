@@ -9,12 +9,12 @@ class CustomButton extends StatelessWidget {
   final Widget? icon;
 
   const CustomButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.isPrimary = true,
     this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class CustomButton extends StatelessWidget {
               : Border.all(color: const Color(0xFFE0E0E0)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(isPrimary ? 0.08 : 0.04),
+              color: Colors.black.withValues(alpha: isPrimary ? 0.08 : 0.04),
               blurRadius: isPrimary ? 4 : 2,
               offset: const Offset(0, 2),
             ),

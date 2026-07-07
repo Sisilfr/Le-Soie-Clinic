@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../core/theme/app_colors.dart';
+import '../providers/auth_provider.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,9 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
                     children: [
                       // Search / Person icon
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          _showLogoutDialog(context);
+                        },
                         child: const Icon(
                           Icons.person_outline,
                           color: Color(0xFF2C2C2C),
@@ -132,10 +136,72 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
           // Bottom border: rgba(74,107,90,0.15)
           Container(
             height: 1.15,
-            color: const Color(0xFF4A6B5A).withOpacity(0.15),
+            color: const Color(0xFF4A6B5A).withValues(alpha: 0.15),
           ),
         ],
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            'Keluar Akun',
+            style: GoogleFonts.playfairDisplay(
+              color: const Color(0xFF2D4A3E),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'Apakah Anda yakin ingin keluar dari Le Soie?',
+            style: GoogleFonts.inter(
+              color: const Color(0xFF2C2C2C),
+              fontSize: 14,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(
+                'Batal',
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF9A9A8A),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2D4A3E),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () async {
+                Navigator.pop(dialogContext);
+                await context.read<AuthProvider>().logout();
+                if (context.mounted) {
+                  Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                }
+              },
+              child: Text(
+                'Keluar',
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -165,7 +231,7 @@ class _HeroSection extends StatelessWidget {
               'assets/images/Home.png',
               fit: BoxFit.cover,
               alignment: const Alignment(0, -0.2),
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (_, _, _) => Container(
                 color: const Color(0xFFFAF8F5),
               ),
             ),
@@ -230,7 +296,7 @@ class _HeroSection extends StatelessWidget {
                       borderRadius: BorderRadius.circular(999),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 1.5,
                           offset: const Offset(0, 1),
                         ),
@@ -395,7 +461,7 @@ class _IngredientCard extends StatelessWidget {
             child: Image.asset(
               imagePath,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (_, _, _) => Container(
                 color: const Color(0xFFEDE8E0),
               ),
             ),
@@ -481,7 +547,7 @@ class _ClinicSection extends StatelessWidget {
                 'Perawatan sejati bekerja dari luar dan dalam. Kunjungi Le Soie Clinic untuk konsultasi dermatologi, treatment facial berstandar medis, dan teknologi laser terkini.',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   height: 1.625, // 22.75px line height
