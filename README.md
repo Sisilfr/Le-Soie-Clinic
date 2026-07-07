@@ -56,15 +56,15 @@
 | <img src="docs/screenshots/screen_register.png" width="200"/> | <img src="docs/screenshots/screen_jurnal_reminder.jpeg" width="200"/> |
 | Form registrasi dengan benefit eksklusif | Jurnal Rutinitas — Checklist AM/PM, pengingat, dan progress harian |
 
-| 🛍️ Belanja Skincare | ⏰ Set Jam Pengingat |
+| ⏰ Set Jam Pengingat | 📚 Artikel Skincare |
 |:---:|:---:|
-| <img src="docs/screenshots/screen_belanja.png" width="200"/> | <img src="docs/screenshots/screen_jurnal_reminder.jpeg" width="200"/> |
-| | Time Picker kustom untuk pengingat manual |
+| <img src="docs/screenshots/screen_jurnal_reminder.jpeg" width="200"/> | <img src="docs/screenshots/screen_jurnal_artikel.jpeg" width="200"/> |
+| Time Picker kustom untuk pengingat manual | Artikel Skincare — Tab kedua di halaman Jurnal, filter kategori (Kandungan Skincare, Kesehatan Kulit) |
 
-| 📚 Artikel Skincare | 🔔 Notifikasi Pengingat |
+| 🔔 Notifikasi Pengingat | |
 |:---:|:---:|
-| <img src="docs/screenshots/screen_jurnal_artikel.jpeg" width="200"/> | <img src="docs/screenshots/screen_notifikasi.jpeg" width="200"/> |
-| Artikel Skincare — Tab kedua di halaman Jurnal, filter kategori (Kandungan Skincare, Kesehatan Kulit) | Notifikasi Reminder PM — Muncul di status bar HP sesuai jadwal terjadwal |
+| <img src="docs/screenshots/screen_notifikasi.jpeg" width="200"/> | |
+| Notifikasi Reminder PM — Muncul di status bar HP sesuai jadwal terjadwal | |
 
 </div>
 
