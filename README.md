@@ -59,7 +59,7 @@
 | 🛍️ Belanja Skincare | ⏰ Set Jam Pengingat |
 |:---:|:---:|
 | <img src="docs/screenshots/screen_belanja.png" width="200"/> | <img src="docs/screenshots/screen_jurnal_reminder.jpeg" width="200"/> |
-| Grid produk dari DummyJSON API | Time Picker kustom untuk pengingat manual |
+| | Time Picker kustom untuk pengingat manual |
 
 | 📚 Artikel Skincare | 🔔 Notifikasi Pengingat |
 |:---:|:---:|
