@@ -80,7 +80,8 @@ Aplikasi **Le Soie** telah ditingkatkan dengan fitur-fitur wajib berikut untuk R
 2. **API Integration (DummyJSON)**
    - Halaman **Belanja** mengambil data secara realtime dari API `https://dummyjson.com/products/category/skincare`.
    - Menampilkan daftar produk (thumbnail, kategori, nama, harga USD, rating) dengan grid view yang responsif, dilengkapi loading indicator, pesan error, serta tombol **Coba Lagi**.
-   - Dilengkapi popup detail produk (Bottom Sheet) premium untuk checkout / pembelian produk.
+   - Dilengkapi popup detail produk (Bottom Sheet) berisi deskripsi lengkap, rating, dan harga produk.
+   - Catatan: aplikasi ini tidak mengimplementasikan fitur keranjang belanja (cart) maupun checkout sungguhan. Tombol "Beli Sekarang" hanya sebagai simulasi UI (menampilkan notifikasi singkat/SnackBar), karena fokus fitur perangkat pada UAS ini diarahkan ke Local Notification (lihat poin 4), bukan fitur e-commerce.
 3. **Local Storage (SharedPreferences)**
    - Menyimpan status login pengguna (`isLoggedIn`).
    - Fitur **Auto-Login** mendeteksi status login saat aplikasi dimulai via `SplashScreen` dan mengarahkan pengguna secara otomatis ke halaman utama jika status login bernilai `true`.
@@ -184,6 +185,8 @@ flutter build apk --release
 ## 📄 Catatan Penilaian Dosen / Penguji
 - **Sumber Data API**: Produk diimpor dari endpoint `https://dummyjson.com/products/category/skincare` (kategori kosmetik/skincare).
 - **Format Mata Uang**: Menggunakan format **USD ($)** sesuai dengan data asli dari DummyJSON.
+- **Mobile Feature yang Dipilih**: Local Notification (bukan Camera), digunakan untuk pengingat rutinitas skincare AM/PM.
+- **Fitur Keranjang Belanja**: Halaman Belanja pada aplikasi ini berfungsi sebagai katalog produk (integrasi REST API) dan tidak dilengkapi fitur keranjang belanja/cart maupun proses checkout nyata, karena fitur perangkat yang diimplementasikan untuk memenuhi rubrik UAS adalah Local Notification, bukan fitur e-commerce.
 - **Konfigurasi Notifikasi Android**: Permissions `POST_NOTIFICATIONS` dan `SCHEDULE_EXACT_ALARM` telah ditambahkan di file `AndroidManifest.xml` bersama dengan meta-data default icon.
 
 ---
