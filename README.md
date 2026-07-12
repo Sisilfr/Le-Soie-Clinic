@@ -77,8 +77,11 @@ Aplikasi **Le Soie** telah ditingkatkan dengan fitur-fitur wajib berikut untuk R
 1. **State Management (Provider)**
    - Menggunakan package `provider` untuk memisahkan logic UI dengan bisnis.
    - Terdiri dari 4 provider utama: `AuthProvider`, `RoutineProvider`, `ProductProvider`, dan `NotificationProvider`.
-2. **API Integration (DummyJSON)**
-   - Halaman **Belanja** mengambil data secara realtime dari API `https://dummyjson.com/products/category/skincare`.
+2. **API Integration (Autentikasi & DummyJSON)**
+   - **Autentikasi Pengguna (Register & Login)**: Menerapkan integrasi API eksternal riil untuk autentikasi user. Data dikirim dalam format JSON ke server dan respons di-parse secara asinkron untuk memuat nama profil serta token pengguna.
+     - **Register Endpoint**: `POST https://syahrulawaludin.my.id/api/v1/auth/register` (untuk pendaftaran akun baru).
+     - **Login Endpoint**: `POST https://syahrulawaludin.my.id/api/v1/auth/login` (untuk validasi kredensial dan pengambilan profil).
+   - **Halaman Belanja**: Mengambil data produk skincare secara realtime dari API `https://dummyjson.com/products/category/skincare`.
    - Menampilkan daftar produk (thumbnail, kategori, nama, harga USD, rating) dengan grid view yang responsif, dilengkapi loading indicator, pesan error, serta tombol **Coba Lagi**.
    - Dilengkapi popup detail produk (Bottom Sheet) berisi deskripsi lengkap, rating, dan harga produk.
    - Catatan: aplikasi ini tidak mengimplementasikan fitur keranjang belanja (cart) maupun checkout sungguhan. Tombol "Beli Sekarang" hanya sebagai simulasi UI (menampilkan notifikasi singkat/SnackBar), karena fokus fitur perangkat pada UAS ini diarahkan ke Local Notification (lihat poin 4), bukan fitur e-commerce.
@@ -167,6 +170,34 @@ flutter build apk --release
 
 ---
 
+## 🔐 Panduan Pendaftaran & Autentikasi Akun (Register & Login)
+
+Aplikasi Le Soie menggunakan integrasi API eksternal riil untuk autentikasi user. Jika Anda baru pertama kali menjalankan aplikasi, ikuti panduan pendaftaran akun berikut:
+
+### 📝 Langkah 1: Registrasi Akun Baru
+1. Jalankan aplikasi di emulator atau perangkat fisik Anda.
+2. Di halaman utama Login, klik tautan **"Daftar sekarang"** yang berada di bagian bawah form.
+3. Anda akan diarahkan ke halaman **Register**.
+4. Isi data yang diminta:
+   - **Nama Lengkap**: Masukkan nama lengkap Anda (nama ini akan digunakan untuk menyapa Anda di halaman Jurnal secara dinamis).
+   - **Email**: Masukkan alamat email valid (harus mengandung karakter `@`).
+   - **Password**: Masukkan password Anda. **PENTING: Panjang password minimal harus 8 karakter** sesuai validasi server API.
+   - **Konfirmasi Password**: Tulis ulang password untuk memastikan kesesuaian.
+5. Klik tombol **Daftar**. Data Anda akan dikirimkan ke server API. Jika berhasil, Anda akan otomatis dialihkan masuk ke halaman utama aplikasi (Beranda).
+
+### 🔑 Langkah 2: Login Akun
+Jika Anda keluar akun (logout) atau ingin masuk dari perangkat lain:
+1. Masukkan **Email** dan **Password** yang telah didaftarkan sebelumnya.
+2. Klik tombol **Login**.
+3. Jika login sukses, status masuk Anda akan disimpan secara lokal (`SharedPreferences`) dan Anda akan langsung diarahkan ke halaman utama.
+
+> [!NOTE]
+> Integrasi API untuk autentikasi menggunakan server endpoint:
+> - **Register Endpoint:** `POST https://syahrulawaludin.my.id/api/v1/auth/register`
+> - **Login Endpoint:** `POST https://syahrulawaludin.my.id/api/v1/auth/login`
+
+---
+
 ## 📦 Dependensi Utama
 
 | Package | Versi | Kegunaan |
@@ -188,6 +219,7 @@ flutter build apk --release
 - **Mobile Feature yang Dipilih**: Local Notification (bukan Camera), digunakan untuk pengingat rutinitas skincare AM/PM.
 - **Fitur Keranjang Belanja**: Halaman Belanja pada aplikasi ini berfungsi sebagai katalog produk (integrasi REST API) dan tidak dilengkapi fitur keranjang belanja/cart maupun proses checkout nyata, karena fitur perangkat yang diimplementasikan untuk memenuhi rubrik UAS adalah Local Notification, bukan fitur e-commerce.
 - **Konfigurasi Notifikasi Android**: Permissions `POST_NOTIFICATIONS` dan `SCHEDULE_EXACT_ALARM` telah ditambahkan di file `AndroidManifest.xml` bersama dengan meta-data default icon.
+- **Integrasi API Autentikasi**: Selain integrasi API DummyJSON pada halaman Belanja, aplikasi ini juga terhubung ke API eksternal (`https://syahrulawaludin.my.id/api/v1`) untuk memproses pendaftaran akun (Register) dan autentikasi masuk (Login).
 
 ---
 

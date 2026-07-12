@@ -1,11 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import '../core/theme/app_colors.dart';
+import '../providers/auth_provider.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  bool _isLocalLoading = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleRegister() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+
+    if (name.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Semua kolom harus diisi'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Konfirmasi password tidak cocok'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLocalLoading = true;
+    });
+
+    try {
+      await context.read<AuthProvider>().register(name, email, password);
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/main');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.toString().replaceAll('Exception: ', '')),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLocalLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +108,7 @@ class RegisterScreen extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      Colors.white.withValues(alpha: 0.15),
+                      Colors.white.withAlpha(38), // 0.15 * 255 = 38
                       Colors.white,
                     ],
                   ),
@@ -51,7 +126,7 @@ class RegisterScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: Colors.black.withAlpha(12), // 0.05 * 255 = 12
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                     ),
@@ -96,23 +171,40 @@ class RegisterScreen extends StatelessWidget {
                     const SizedBox(height: 32),
 
                     // Form fields
-                    const CustomTextField(hintText: 'Nama Lengkap'),
+                    CustomTextField(
+                      hintText: 'Nama Lengkap',
+                      controller: _nameController,
+                    ),
                     const SizedBox(height: 16),
-                    const CustomTextField(hintText: 'Email'),
+                    CustomTextField(
+                      hintText: 'Email',
+                      controller: _emailController,
+                    ),
                     const SizedBox(height: 16),
-                    const CustomTextField(hintText: 'Password', isPassword: true),
+                    CustomTextField(
+                      hintText: 'Password',
+                      isPassword: true,
+                      controller: _passwordController,
+                    ),
                     const SizedBox(height: 16),
-                    const CustomTextField(
-                        hintText: 'Konfirmasi Password', isPassword: true),
+                    CustomTextField(
+                      hintText: 'Konfirmasi Password',
+                      isPassword: true,
+                      controller: _confirmPasswordController,
+                    ),
                     const SizedBox(height: 24),
 
                     // Daftar button
-                    CustomButton(
-                      text: 'Daftar',
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/main');
-                      },
-                    ),
+                    _isLocalLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryGreen,
+                            ),
+                          )
+                        : CustomButton(
+                            text: 'Daftar',
+                            onPressed: _handleRegister,
+                          ),
                     const SizedBox(height: 24),
 
                     // Divider

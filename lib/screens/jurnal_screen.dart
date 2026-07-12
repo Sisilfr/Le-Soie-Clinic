@@ -8,6 +8,7 @@ import '../providers/routine_provider.dart';
 import '../providers/notification_provider.dart';
 import '../models/article.dart';
 import '../providers/article_provider.dart';
+import '../providers/auth_provider.dart';
 
 class JurnalScreen extends StatefulWidget {
   const JurnalScreen({super.key});
@@ -164,13 +165,14 @@ class _JurnalScreenState extends State<JurnalScreen>
   }
 
   Widget _buildRutinitasTab(RoutineProvider routineProvider) {
+    final authProvider = context.watch<AuthProvider>();
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(20, 24, 20, 100),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Greeting card
-          _buildGreetingCard(),
+          _buildGreetingCard(authProvider.userName),
           const SizedBox(height: 20),
 
           // Routine card
@@ -280,7 +282,10 @@ class _JurnalScreenState extends State<JurnalScreen>
   }
 
   // ── GREETING CARD ──────────────────────────────────────────────────────────
-  Widget _buildGreetingCard() {
+  Widget _buildGreetingCard(String? userName) {
+    debugPrint("Debug JurnalScreen: userName = $userName");
+    final displayUser = (userName != null && userName.isNotEmpty) ? userName : 'Alea';
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -299,7 +304,7 @@ class _JurnalScreenState extends State<JurnalScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hai, Alea.',
+            'Hai, $displayUser.',
             style: GoogleFonts.cormorantGaramond(
               color: Colors.white,
               fontSize: 24,
